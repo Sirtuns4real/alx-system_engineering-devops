@@ -1,2 +1,2 @@
 #!/bin/bash
-xdg-open <StarWars_IV>
+telnet towel.blinkenlights.nl
