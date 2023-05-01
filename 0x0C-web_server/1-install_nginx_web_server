@@ -4,24 +4,6 @@
 sudo apt-get update
 sudo apt-get -y install nginx
 
-# Configure Nginx to listen on port 80
-sudo sed -i 's/# listen 80/listen 80/g' /etc/nginx/sites-available/default
-
 # Create a new server block that responds with "Hello World!" at the root URL
-sudo echo "server {
-        listen 80;
-        server_name _;
-        root /var/www/html;
-        index index.html;
-
-        location / {
-                echo 'Hello World!';
-        }
-}" > /etc/nginx/sites-available/hello_world
-
-# Enable the new server block
-sudo ln -s /etc/nginx/sites-available/hello_world /etc/nginx/sites-enabled/hello_world
-
-# Restart Nginx
-sudo /etc/init.d/nginx restart
-
+sudo echo 'Hello World!' > /var/www/html/index.nginx-debian.html
+service nginx start
