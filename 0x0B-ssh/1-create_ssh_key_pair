@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
+#Script to generate an SSh key
 
-ssh-keygen -t rsa -b 4096 -f ~/.ssh/school -N betty
+ssh-keygen -t rsa -b 4096 -f holberton -N betty
