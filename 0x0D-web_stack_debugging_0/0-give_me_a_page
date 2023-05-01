@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 # A Script that turns on an Apache Server container
+echo "ServerName localhost" >> /etc/apache2.conf
 service apache2 start
