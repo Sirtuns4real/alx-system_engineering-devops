@@ -1,7 +1,8 @@
-#Kill a program in puppet
-exec { 'killmenow':
-  command => 'pkill killmenow',
-  path => '/usr/bin:/bin',
-  onlyif => 'pgrep killmenow',
-}
+# Kills a process with puppet
 
+exec { 'pkill killmenow':
+  path     => '/usr/bin',
+  command  => 'pkill killmenow',
+  provider => shell,
+  returns  => [0, 1]
+}
