@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+# Check if there are enough arguments
+if [ $# -lt 4 ]; then
+    echo "Usage: $0 PATH_TO_FILE IP USERNAME PATH_TO_SSH_KEY"
+    exit 1
+fi
+
+# Get the arguments
+file_path=$1
+server_ip=$2
+username=$3
+ssh_key_path=$4
+
+# Transfer the file using scp
+scp -o "StrictHostKeyChecking no" -i $ssh_key_path $file_path $username@$server_ip:~
+
+# Check the status of the scp command
+if [ $? -eq 0 ]; then
+    echo "File transferred successfully."
+else
+    echo "File transfer failed."
+    exit 1
+fi
+
