@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
-# Install Nginx
-sudo apt-get update
-sudo apt-get -y install nginx
-# Create a new server block that responds with "Hello World!" at the root URL
-echo "Hello World!" > /var/www/html/index.nginx-debian.html
+# Script that installs Nginx server
+apt-get -y update
+apt-get -y install nginx
+echo "Holberton School" > /var/www/html/index.nginx-debian.html
 service nginx start
