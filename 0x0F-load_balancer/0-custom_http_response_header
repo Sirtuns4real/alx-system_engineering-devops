@@ -20,8 +20,8 @@ echo 'Hello World!' > /var/www/html/index.html
 echo "Ceci n'est pas une page" > /var/www/html/404.html
 
 # Configure Nginx with custom HTTP header
-server_config=$(cat <<EOF
-server {
+sserver_config=\
+"server {
 	listen 80 default_server;
 	listen [::]:80 default_server;
 	root /var/www/html;
@@ -31,16 +31,14 @@ server {
 	location / {
 		try_files \$uri \$uri/ =404;
 	}
+	if (\$request_filename ~ redirect_me){
+		rewrite ^ https://youtube.com permanent;
+	}
 	error_page 404 /404.html;
 	location = /404.html {
 		internal;
 	}
-}
-EOF
-)
+}"
 
-# Write Nginx config to file
 echo "$server_config" > /etc/nginx/sites-enabled/default
-
-# Restart Nginx service
 sudo service nginx restart
