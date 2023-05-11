@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Installs, configures, and starts the load balancer
+
 # Update package repositories
 sudo apt-get update
 
@@ -9,7 +10,7 @@ sudo add-apt-repository -y ppa:vbernat/haproxy-2.4
 sudo apt-get -y install haproxy
 
 # Configure the load balancer
-DOMAIN_NAME='beta-scribbles.tech'
+DOMAIN_NAME='sirtuns4real.tech'
 INIT_FILE='/etc/default/haproxy'
 CONFIG_FILE='/etc/haproxy/haproxy.cfg'
 
@@ -43,9 +44,9 @@ fi
 sed -i '/#--'"$DOMAIN_NAME"'-params-begin--/,/#--'"$DOMAIN_NAME"'-params-end--/d' "$CONFIG_FILE"
 echo "$HAPROXY_LB_CONFIG" >> "$CONFIG_FILE"
 
-# Start or restart the HAProxy service
-if pgrep haproxy > /dev/null; then
-    sudo service haproxy restart
-else
+# Check if HAProxy is running
+if ! pgrep haproxy > /dev/null; then
     sudo service haproxy start
+else
+    sudo service haproxy restart
 fi
