@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-
 # This script configures web-02 to be identical to web-01 by adding a custom X-Served-By HTTP header to Nginx's HTTP response
-
 # Update package repositories
 sudo apt-get -y update
 
