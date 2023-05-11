@@ -10,7 +10,7 @@ sudo apt-get -y install haproxy
 
 # Configure HAProxy
 CONFIG_FILE="/etc/haproxy/haproxy.cfg"
-BACKEND_SERVERS="[STUDENT_ID]-web-01 [STUDENT_ID]-web-02"
+BACKEND_SERVERS="184935-web-01 184935-web-02"
 
 # Create a backup of the default HAProxy configuration file
 sudo cp "$CONFIG_FILE" "${CONFIG_FILE}.bak"
