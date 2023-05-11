@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+# Update package repositories
+sudo apt-get update
+
+# Install HAProxy
+sudo apt-get -y install --no-install-recommends software-properties-common
+sudo add-apt-repository -y ppa:vbernat/haproxy-2.4
+sudo apt-get -y install haproxy
+
+# Configure the load balancer
+DOMAIN_NAME='beta-scribbles.tech'
+INIT_FILE='/etc/default/haproxy'
+CONFIG_FILE='/etc/haproxy/haproxy.cfg'
+
+# Custom load balancer configuration
+HAPROXY_LB_CONFIG=$(cat <<EOF
+#--$DOMAIN_NAME-params-begin--
+backend $DOMAIN_NAME-backend
+    balance roundrobin
+    server 914-web-01 34.138.32.248:80 check
+    server 914-web-02 3.226.74.205:80 check
+frontend $DOMAIN_NAME-frontend
+    bind *:80
+    mode http
+    default_backend $DOMAIN_NAME-backend
+#--$DOMAIN_NAME-params-end--
+EOF
+)
+
+# Create the initialization and configuration files if they don't exist
+[ -f "$INIT_FILE" ] || touch "$INIT_FILE"
+[ -f "$CONFIG_FILE" ] || touch "$CONFIG_FILE"
+
+# Update the initialization file to enable HAProxy
+if ! grep -q '^ENABLED=[01]$' "$INIT_FILE"; then
+    echo 'ENABLED=1' >> "$INIT_FILE"
+else
+    sed -i 's/^ENABLED=0$/ENABLED=1/' "$INIT_FILE"
+fi
+
+# Update the configuration file with the custom load balancer configuration
+sed -i '/#--'"$DOMAIN_NAME"'-params-begin--/,/#--'"$DOMAIN_NAME"'-params-end--/d' "$CONFIG_FILE"
+echo "$HAPROXY_LB_CONFIG" >> "$CONFIG_FILE"
+
+# Start or restart the HAProxy service
+if pgrep haproxy > /dev/null; then
+    sudo service haproxy restart
+else
+    sudo service haproxy start
+fi
