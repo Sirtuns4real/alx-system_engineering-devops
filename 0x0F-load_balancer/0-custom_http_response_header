@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+# This script configures web-02 to be identical to web-01 by adding a custom X-Served-By HTTP header to Nginx's HTTP response
+
+# Update package repositories
+sudo apt-get -y update
+
+# Install Nginx
+sudo apt-get -y install nginx
+
+# Allow HTTP traffic through firewall
+sudo ufw allow 'Nginx HTTP'
+
+# Set up directories and permissions
+sudo mkdir -p /var/www/html /var/www/error
+sudo chmod -R 755 /var/www
+
+# Create a basic index.html file
+echo 'Hello World!' > /var/www/html/index.html
+
+# Create a custom 404 error page
+echo "Ceci n'est pas une page" > /var/www/html/404.html
+
+# Configure Nginx with custom HTTP header
+server_config=$(cat <<EOF
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+	root /var/www/html;
+	index index.html index.htm index.nginx-debian.html;
+	server_name _;
+	add_header X-Served-By \$hostname;
+	location / {
+		try_files \$uri \$uri/ =404;
+	}
+	error_page 404 /404.html;
+	location = /404.html {
+		internal;
+	}
+}
+EOF
+)
+
+# Write Nginx config to file
+echo "$server_config" > /etc/nginx/sites-enabled/default
+
+# Restart Nginx service
+sudo service nginx restart
