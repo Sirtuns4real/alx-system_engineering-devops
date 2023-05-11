@@ -9,6 +9,7 @@ sudo apt-get update
 sudo apt-get -y install haproxy
 
 # Configure HAProxy
+DOMAIN_NAME='sirtuns4real.tech'
 CONFIG_FILE="/etc/haproxy/haproxy.cfg"
 BACKEND_SERVERS="184935-web-01 184935-web-02"
 
