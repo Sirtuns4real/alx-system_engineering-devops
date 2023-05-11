@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
-# This script configures web-02 to be identical to web-01 by adding a custom X-Served-By HTTP header to Nginx's HTTP response
-# Update package repositories
+# configure web-02 to be identical to web-01
+# The name of the custom HTTP header must be X-Served-By
+# The value of the custom HTTP header must be the hostname of the server Nginx is running on
+#sudo sed -i 's/server_name _;.*/server_name _;\n\tadd_header X-Served-By \$hostname;/' /etc/nginx/sites-enabled/default 
 sudo apt-get -y update
 sudo apt-get -y install nginx
 sudo ufw allow 'Nginx HTTP'
