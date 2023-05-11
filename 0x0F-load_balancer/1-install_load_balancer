@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+# Installs, configures, and starts the load balancer
 # Update package repositories
 sudo apt-get update
 
