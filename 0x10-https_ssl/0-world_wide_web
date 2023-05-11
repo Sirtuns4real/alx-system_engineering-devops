@@ -2,6 +2,7 @@
 # Function to display subdomain information
 
 # www --> 184935-lb-01 54.197.87.216
+# lb-01 --> 184935-lb-01 54.197.87.216
 # web-01 --> 184935-web-01 52.3.250.203
 # web-02 --> 184935-web-02 54.89.194.149
 
